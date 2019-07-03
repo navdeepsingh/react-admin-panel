@@ -52,7 +52,7 @@ class Login extends React.Component {
 
 									<div className="form-label-group">
 										<input type="password" ref={this.password} id="inputPassword" className="form-control" placeholder="Password" required />
-										<label htmlFor="inputPassword">Password</label>
+										<label htmlFor="inputPassword">Password </label>
 									</div>
 
 									<div className="custom-control custom-checkbox mb-3">
