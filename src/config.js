@@ -1,13 +1,13 @@
-const config = {};
+const configuration = {};
 
-config.production = {
-  'API_BASE_URL': process.env.API_URL
+configuration.production = {
+  API_BASE_URL: process.env.API_URL
 }
-config.default = {
-  'API_BASE_URL': 'http://localhost:8000'
+configuration.default = {
+  API_BASE_URL: 'http://localhost:8000'
 }
 
 
-const chosenConfig = process.env.NODE_ENV === 'production' ? config.production : config.default;
+const config = process.env.NODE_ENV === 'production' ? configuration.production : configuration.default;
 
-export default chosenConfig;
+export default config;
