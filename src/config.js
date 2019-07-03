@@ -8,6 +8,6 @@ configuration.default = {
 }
 
 
-const config = process.env.NODE_ENV === 'production' ? configuration.production : configuration.default;
+const config = process.env.NODE_ENV === 'production' ? configuration.default : configuration.default;
 
 export default config;
