@@ -31,14 +31,9 @@ class Login extends React.Component {
 				"email": emailValue,
 				"password": passwordValue
 			})
-		}).then(response => {
-			if (response.status < 200 || response.status >= 300) {
-				//throw new Error(response.statusText);
-				console.log('Error');
-				return;
-			}
-			return response.json();
-		})
+		}).then(response => response.json())
+			.then(res => console.log('Success:', JSON.stringify(res)))
+			.catch(error => console.error('Error:', error));
 	}
 
 	render() {
