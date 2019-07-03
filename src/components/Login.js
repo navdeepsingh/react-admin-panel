@@ -16,13 +16,16 @@ class Login extends React.Component {
 		});
 		const emailValue = this.email.current.value;
 		const passwordValue = this.password.current.value;
+		console.log({
+			"email": emailValue,
+			"password": passwordValue
+		});
+
 		fetch(config.API_BASE_URL + '/api/login', {
 			method: 'POST',
 			mode: 'no-cors',
 			headers: {
-				'Content-Type': 'application/json',
-				Authorization: `Bearer`,
-				Accept: 'application/json'
+				'Content-Type': 'application/json'
 			},
 			body: JSON.stringify({
 				"email": emailValue,
