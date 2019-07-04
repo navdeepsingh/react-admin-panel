@@ -26,12 +26,15 @@ class App extends React.Component {
     }).then(response => response.json())
       .then(res => {
         if (res.status === 'fail') {
-          const login = { ...this.props.login };
+          //1. Take a copy of the existing state
+          const login = { ...this.state.login };
+          //2. Add new variables into our login valriable
           login['error'] = true;
           login['errorMessage'] = 'Login Incorrect';
+          //3. Set the new login object to state
           this.setState({ login });
         } else {
-          const login = { ...this.props.login };
+          const login = { ...this.state.login };
           login['error'] = false;
           login['errorMessage'] = '';
           login['authenticate'] = true;
