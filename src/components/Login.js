@@ -1,39 +1,23 @@
 import React from 'react';
+//import { Redirect } from 'react-router-dom';
 import '../css/Login.css';
-import config from '../config';
+
 
 class Login extends React.Component {
-
 
 	email = React.createRef();
 	password = React.createRef();
 
-	login = (e) => {
-		e.preventDefault();
-		this.setState({
-			error: false,
-			errorMessage: ''
-		});
-		const emailValue = this.email.current.value;
-		const passwordValue = this.password.current.value;
-		console.log({
-			"email": emailValue,
-			"password": passwordValue
-		});
 
-		fetch(config.API_BASE_URL + '/api/login', {
-			method: 'POST',
-			mode: 'cors',
-			headers: {
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify({
-				"email": emailValue,
-				"password": passwordValue
-			})
-		}).then(response => response.json())
-			.then(res => console.log('Success:', JSON.stringify(res)))
-			.catch(error => console.error('Error:', error));
+	loginSubmit = (e) => {
+		e.preventDefault();
+
+		const credentials = {
+			email: this.email.current.value,
+			password: this.password.current.value
+		}
+
+		this.props.loginSubmit(credentials);
 	}
 
 	render() {
@@ -44,7 +28,10 @@ class Login extends React.Component {
 						<div className="card card-signin my-5">
 							<div className="card-body">
 								<h5 className="card-title text-center">Sign In</h5>
-								<form className="form-signin" onSubmit={this.login}>
+								<div className={"alert alert-danger " + (this.props.state.login.error ? '' : 'd-none')} role="alert">
+									{this.props.state.login.errorMessage}
+								</div>
+								<form className="form-signin" onSubmit={this.loginSubmit}>
 									<div className="form-label-group">
 										<input type="email" ref={this.email} id="inputEmail" className="form-control" placeholder="Email address" required autoFocus />
 										<label htmlFor="inputEmail">Email address</label>
