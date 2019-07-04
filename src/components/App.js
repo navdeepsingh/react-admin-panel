@@ -11,8 +11,48 @@ class App extends React.Component {
       error: false,
       errorMessage: '',
       authenticate: false
-    }
+    },
+    user: {}
   };
+
+  componentDidMount() {
+    console.log('DID MOUNT');
+    const localStorageRef = localStorage.getItem('authenticate') === 'true' ? true : false;
+    const localStoregeUserRef = localStorage.getItem('user');
+
+    this.setState({
+      login: {
+        authenticate: localStorageRef
+      },
+      user: localStoregeUserRef
+    });
+
+    this.authenticate(localStoregeUserRef);
+
+  }
+
+  componentDidUpdate() {
+    console.log('DID UPDATE');
+    localStorage.setItem('authenticate', this.state.login.authenticate);
+    localStorage.setItem('user', this.state.user);
+  }
+
+  componentWillUnmount() {
+
+  }
+
+  authenticate = (api_key) => {
+    fetch(config.API_BASE_URL + '/api/validate', {
+      method: 'POST',
+      mode: 'cors',
+      body: JSON.stringify({
+        'api_key': api_key
+      })
+    })
+      .then(res => res.json())
+      .then(response => console.log(JSON.stringify(response)))
+      .catch(err => console.error(err));
+  }
 
   loginSubmit = credentials => {
 
@@ -38,19 +78,30 @@ class App extends React.Component {
           login['error'] = false;
           login['errorMessage'] = '';
           login['authenticate'] = true;
-          this.setState({ login });
+          this.setState({ login, user: res });
           console.log('Success');
-          this.props.history.push('/Dashboard');
+
+          window.history.pushState("", "Dashboard", "/dashboard");
         }
       })
       .catch(error => console.error('Error:', error));
   }
 
+  logout = () => {
+    //1. Take a copy of the existing state
+    const login = { ...this.state.login };
+    //2. Add new variables into our login valriable
+    login['authenticate'] = false;
+    //3. Set the new login object to state
+    this.setState({ login, user: {} });
+    this.props.history.push('/');
+  }
+
   render() {
     return (
-      <div>
-        <Login loginSubmit={this.loginSubmit} state={this.state} />
-      </div>
+      !this.state.login.authenticate
+        ? <Login loginSubmit={this.loginSubmit} state={this.state} />
+        : <Dashboard logout={this.logout} state={this.state} />
     );
   }
 }
