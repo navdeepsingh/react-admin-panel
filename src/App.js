@@ -1,7 +1,5 @@
 import React from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
-
-import { PrivateRoute } from './_components/PrivateRoute';
 import { Login } from './_components/Login';
 import { Dashboard } from './_components/Dashboard';
 import { Qrcode } from './_components/Qrcode';

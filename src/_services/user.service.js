@@ -19,10 +19,10 @@ function getQrcodes() {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': '' + user.api_key + ''
+      'Authorization': user.api_key
     },
   })
     .then(response => response.json())
-    .then(res => console.log(res))
+    .then(res => console.log(JSON.stringify(res)))
     .catch(err => console.error('Error: ', err));
 }
