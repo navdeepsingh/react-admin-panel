@@ -17,10 +17,9 @@ function getQrcodes() {
 
   return fetch(config.API_BASE_URL + '/api/qrcode', {
     method: 'GET',
-    mode: 'no-cors',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': user.api_key
+      'Authorization': '' + user.api_key + ''
     },
   })
     .then(response => response.json())
