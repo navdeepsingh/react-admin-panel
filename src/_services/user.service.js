@@ -2,7 +2,9 @@ import config from '../config';
 
 export const userService = {
   logout,
-  getQrcodes
+  getQrcodes,
+  qrcodeAdd,
+  qrcodeUpdate
 };
 
 
@@ -13,16 +15,52 @@ function logout() {
 
 function getQrcodes() {
   const user = JSON.parse(localStorage.getItem('user'));
-  console.log(user.api_key);
+  if (user) {
+    console.log(user.api_key);
 
-  return fetch(config.API_BASE_URL + '/api/qrcode', {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': user.api_key
-    },
-  })
-    .then(response => response.json())
-    .then(res => console.log(JSON.stringify(res)))
-    .catch(err => console.error('Error: ', err));
+    return fetch(config.API_BASE_URL + '/api/qrcode', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': user.api_key
+      },
+    })
+      .then(response => response.json())
+      .then(res => res)
+      .catch(err => console.error('Error: ', err));
+  }
+}
+
+function qrcodeUpdate(data, qrcode) {
+  const user = JSON.parse(localStorage.getItem('user'));
+  if (user) {
+    return fetch(config.API_BASE_URL + '/api/qrcode/' + qrcode.id, {
+      method: 'PUT',
+      body: JSON.stringify(data),
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': user.api_key
+      },
+    })
+      .then(response => response.json())
+      .then(res => res)
+      .catch(err => console.error('Error: ', err));
+  }
+}
+
+function qrcodeAdd(data) {
+  const user = JSON.parse(localStorage.getItem('user'));
+  if (user) {
+    return fetch(config.API_BASE_URL + '/api/qrcode/', {
+      method: 'POST',
+      body: JSON.stringify(data),
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': user.api_key
+      },
+    })
+      .then(response => response.json())
+      .then(res => res)
+      .catch(err => console.error('Error: ', err));
+  }
 }

@@ -10,10 +10,14 @@ class SideNav extends React.Component {
             <span>Dashboard</span>
           </a>
         </li>
-        <li className={"nav-item " + (this.props.path === '/qrcode' ? 'active' : '')}>
-          <a className="nav-link" href="/qrcode">
+        <li className={"nav-item dropdown show " + (this.props.path === '/qrcode' ? 'active' : '')}>
+          <a className="nav-link dropdown-toggle" href="/qrcode" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <i className="fas fa-fw fa-table"></i>
             <span>QR Codes</span></a>
+          <div className="dropdown-menu show" aria-labelledby="pagesDropdown">
+            <a className="dropdown-item" href="/qrcode" onClick={this.props.openModal}>Add New Link</a>
+            <a className="dropdown-item" href="/qrcode">View All</a>
+          </div>
         </li>
       </ul>
     )
