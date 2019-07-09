@@ -27,7 +27,7 @@ class Qrcode extends React.Component {
       .then(result => {
         let qrcodes = { ...this.state.qrcodes };
         qrcodes = result;
-        this.setState({ qrcodes: qrcodes });
+        this.setState({ qrcodes });
       });
   }
 
@@ -127,7 +127,7 @@ class Qrcode extends React.Component {
               </ol>
               <div>
                 <QrcodeListing
-                  listing={this.state.qrcodes}
+                  qrcodes={this.state.qrcodes}
                   openModal={this.openModal}
                 />
                 <QrcodeModal

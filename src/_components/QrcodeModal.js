@@ -38,7 +38,7 @@ class QrcodeModal extends React.Component {
                     Source Link
                       </Form.Label>
                   <Col sm={10}>
-                    <Form.Control required type="url" ref={this.props.sourceLink} onChange={this.props.inputHandler} placeholder="Source Link" defaultValue={this.props.sourceLink} />
+                    <Form.Control required type="url" ref={this.props.sourceLink} onChange={this.props.inputHandler} placeholder="Source Link" defaultValue={this.props.sourceLink} disabled />
                   </Col>
                 </Form.Group>
                 : ''

@@ -1,11 +1,12 @@
 import React from 'react';
+import { userService } from '../_services';
 
 
 class QrcodeListing extends React.Component {
 
   render() {
-    if (this.props.listing.length > 0) {
-      this.qrcodes = this.props.listing.map((item, key) =>
+    if (this.props.qrcodes.length > 0) {
+      this.qrcodes = this.props.qrcodes.map((item, key) =>
         <tr key={key}>
           <td>{key + 1}</td>
           <td>{item.source_link}</td>
