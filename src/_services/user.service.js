@@ -36,6 +36,7 @@ function qrcodeUpdate(data, qrcode) {
   if (user) {
     return fetch(config.API_BASE_URL + '/api/qrcode/' + qrcode.id, {
       method: 'PUT',
+      mode: 'cors',
       body: JSON.stringify(data),
       headers: {
         'Content-Type': 'application/json',
@@ -53,6 +54,7 @@ function qrcodeAdd(data) {
   if (user) {
     return fetch(config.API_BASE_URL + '/api/qrcode/', {
       method: 'POST',
+      mode: 'cors',
       body: JSON.stringify(data),
       headers: {
         'Content-Type': 'application/json',
