@@ -23,6 +23,14 @@ class QrcodeModal extends React.Component {
             </Modal.Title>
           </Modal.Header>
           <Modal.Body>
+            <Form.Group as={Row} controlId="sourceLink">
+              <Form.Label column sm={2}>
+                QR Code
+                      </Form.Label>
+              <Col sm={10}>
+                <img src={this.props.qrcodeImage} alt="QR Code" />
+              </Col>
+            </Form.Group>
             {
               Object.keys(item).length < 1
                 ? <Form.Group as={Row} controlId="sourceLink">
@@ -30,7 +38,7 @@ class QrcodeModal extends React.Component {
                     Source Link
                       </Form.Label>
                   <Col sm={10}>
-                    <Form.Control required type="url" ref={this.props.sourceLink} onChange={this.props.inputHandler} placeholder="Source Link" defaultValue={item.source_link} />
+                    <Form.Control required type="url" ref={this.props.sourceLink} onChange={this.props.inputHandler} placeholder="Source Link" defaultValue={this.props.sourceLink} />
                   </Col>
                 </Form.Group>
                 : ''

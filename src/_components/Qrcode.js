@@ -14,7 +14,8 @@ class Qrcode extends React.Component {
 
   state = {
     qrcodes: {},
-    modalShow: false
+    modalShow: false,
+    qrcodeImage: ''
   }
 
   componentWillMount() {
@@ -32,12 +33,21 @@ class Qrcode extends React.Component {
 
   openModal = (event, item) => {
     event.preventDefault();
-    this.setState({
-      modalShow: true,
-      item: item,
-      sourceLink: item ? item.source_link : this.sourceLink,
-      destinationLink: item ? item.destination_link : this.destinationLink,
-    })
+    // Create New QRCode if new request
+    const qrcodeImage = userService.qrcodeImage(item);
+    qrcodeImage
+      .then(result => {
+        console.log(result);
+
+        this.setState({
+          modalShow: true,
+          item: item,
+          qrcodeImage: result.image,
+          sourceLink: item ? item.source_link : result.sourceLink,
+          destinationLink: item ? item.destination_link : this.destinationLink,
+        })
+      })
+
 
   }
 
@@ -126,6 +136,7 @@ class Qrcode extends React.Component {
                   item={this.state.item}
                   formHandle={this.formHandle}
                   inputHandler={this.inputHandler}
+                  qrcodeImage={this.state.qrcodeImage}
                   sourceLink={this.state.sourceLink}
                   destinationLink={this.state.destinationLink}
                 />

@@ -4,13 +4,34 @@ export const userService = {
   logout,
   getQrcodes,
   qrcodeAdd,
-  qrcodeUpdate
+  qrcodeUpdate,
+  qrcodeImage
 };
 
 
 function logout() {
   localStorage.removeItem('user');
   localStorage.removeItem('authenticate');
+}
+
+function qrcodeImage(item) {
+  let sourceLink = '';
+  if (item) {
+    sourceLink = item.sourceLink;
+  } else {
+    // Generate Random code and QR Code
+    sourceLink = config.API_BASE_URL + '/redirect/' + Math.random().toString(36).substring(2, 6)
+  }
+  return fetch('https://chart.googleapis.com/chart?cht=qr&chs=200x200&chl=' + sourceLink)
+    .then(response => response.blob())
+    .then(image => URL.createObjectURL(image))
+    .then(result => {
+      return {
+        image: result,
+        sourceLink: sourceLink
+      }
+    })
+    .catch(err => console.error('Error: Creating QR Code ' + err))
 }
 
 function getQrcodes() {
