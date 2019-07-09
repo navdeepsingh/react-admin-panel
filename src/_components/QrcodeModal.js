@@ -12,17 +12,17 @@ class QrcodeModal extends React.Component {
         aria-labelledby="contained-modal-title-vcenter"
         centered
       >
-        <Modal.Header closeButton>
-          <Modal.Title id="contained-modal-title-vcenter">
-            {
-              Object.keys(item).length > 0
-                ? 'Edit  : ' + item.source_link
-                : 'New Link'
-            }
-          </Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Form>
+        <Form onSubmit={this.props.formHandle}>
+          <Modal.Header closeButton>
+            <Modal.Title id="contained-modal-title-vcenter">
+              {
+                Object.keys(item).length > 0
+                  ? 'Edit  : ' + item.source_link
+                  : 'New Link'
+              }
+            </Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
             {
               Object.keys(item).length < 1
                 ? <Form.Group as={Row} controlId="sourceLink">
@@ -30,7 +30,7 @@ class QrcodeModal extends React.Component {
                     Source Link
                       </Form.Label>
                   <Col sm={10}>
-                    <Form.Control type="url" ref={this.props.sourceLink} onChange={this.props.inputHandler} placeholder="Source Link" defaultValue={item.source_link} />
+                    <Form.Control required type="url" ref={this.props.sourceLink} onChange={this.props.inputHandler} placeholder="Source Link" defaultValue={item.source_link} />
                   </Col>
                 </Form.Group>
                 : ''
@@ -40,15 +40,16 @@ class QrcodeModal extends React.Component {
                 Destination Link
               </Form.Label>
               <Col sm={10}>
-                <Form.Control type="url" ref={this.props.destinationLink} onChange={this.props.inputHandler} placeholder="Destination Link" defaultValue={item.destination_link} />
+                <Form.Control required type="url" ref={this.props.destinationLink} onChange={this.props.inputHandler} placeholder="eg. http://www.your-site.com" defaultValue={item.destination_link} />
               </Col>
             </Form.Group>
-          </Form>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button onClick={this.props.onHide} variant="secondary">Close</Button>
-          <Button onClick={this.props.formHandle} variant="primary">Save changes</Button>
-        </Modal.Footer>
+
+          </Modal.Body>
+          <Modal.Footer>
+            <Button onClick={this.props.onHide} variant="secondary">Close</Button>
+            <Button type="submit" variant="primary">Save changes</Button>
+          </Modal.Footer>
+        </Form>
       </Modal>
     )
   }

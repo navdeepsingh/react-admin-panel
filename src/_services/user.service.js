@@ -52,9 +52,9 @@ function qrcodeUpdate(data, qrcode) {
 function qrcodeAdd(data) {
   const user = JSON.parse(localStorage.getItem('user'));
   if (user) {
-    return fetch(config.API_BASE_URL + '/api/qrcode/', {
-      method: 'POST',
-      mode: 'cors',
+    return fetch(config.API_BASE_URL + '/api/qrcode', {
+      crossDomain: true,
+      method: 'post',
       body: JSON.stringify(data),
       headers: {
         'Content-Type': 'application/json',
