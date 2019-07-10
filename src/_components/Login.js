@@ -9,6 +9,7 @@ class Login extends React.Component {
 	state = {
 		login: {
 			error: false,
+			loading: false,
 			errorMessage: '',
 			authenticate: false
 		},
@@ -39,6 +40,9 @@ class Login extends React.Component {
 
 	loginSubmit = (e) => {
 		e.preventDefault();
+		const login = { ...this.state.login };
+		login['loading'] = true;
+		this.setState({ login });
 
 		const credentials = {
 			email: this.email.current.value,
@@ -59,6 +63,7 @@ class Login extends React.Component {
 					const login = { ...this.state.login };
 					//2. Add new variables into our login valriable
 					login['error'] = true;
+					login['loading'] = false;
 					login['errorMessage'] = 'Login Incorrect';
 					//3. Set the new login object to state
 					this.setState({ login });
@@ -101,7 +106,7 @@ class Login extends React.Component {
 										<input type="checkbox" className="custom-control-input" id="customCheck1" />
 										<label className="custom-control-label" htmlFor="customCheck1">Remember password</label>
 									</div>
-									<button className="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Sign in</button>
+									<button className="btn btn-lg btn-primary btn-block text-uppercase" type="submit" disabled={this.state.login.loading}>{this.state.login.loading ? 'Loading..' : 'Log In'}</button>
 								</form>
 							</div>
 						</div>

@@ -5,7 +5,8 @@ export const userService = {
   getQrcodes,
   qrcodeAdd,
   qrcodeUpdate,
-  qrcodeImage
+  qrcodeImage,
+  qrcodeDelete
 };
 
 
@@ -17,7 +18,7 @@ function logout() {
 function qrcodeImage(item) {
   let sourceLink = '';
   if (item) {
-    sourceLink = item.sourceLink;
+    sourceLink = item.source_link;
   } else {
     // Generate Random code and QR Code
     sourceLink = config.API_BASE_URL + '/redirect/' + Math.random().toString(36).substring(2, 6)
@@ -37,8 +38,6 @@ function qrcodeImage(item) {
 function getQrcodes() {
   const user = JSON.parse(localStorage.getItem('user'));
   if (user) {
-    console.log(user.api_key);
-
     return fetch(config.API_BASE_URL + '/api/qrcode', {
       method: 'GET',
       headers: {
@@ -84,6 +83,22 @@ function qrcodeAdd(data) {
     })
       .then(response => response.json())
       .then(res => res)
+      .catch(err => console.error('Error: ', err));
+  }
+}
+
+function qrcodeDelete(qrcode) {
+  const user = JSON.parse(localStorage.getItem('user'));
+  if (user) {
+    return fetch(config.API_BASE_URL + '/api/qrcode/' + qrcode.id, {
+      crossDomain: true,
+      method: 'delete',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': user.api_key
+      },
+    })
+      .then(response => response.json())
       .catch(err => console.error('Error: ', err));
   }
 }

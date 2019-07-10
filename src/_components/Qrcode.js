@@ -4,6 +4,7 @@ import SideNav from './SideNav';
 import Footer from './Footer';
 import QrcodeListing from './QrcodeListing';
 import QrcodeModal from './QrcodeModal';
+import QrcodeDeleteModal from './QrcodeDeleteModal';
 import { userService } from '../_services';
 import '../css/App.css';
 
@@ -13,16 +14,19 @@ class Qrcode extends React.Component {
   destinationLink = React.createRef();
 
   state = {
-    qrcodes: {},
+    qrcodes: [],
     modalShow: false,
+    modalDeleteShow: false,
     qrcodeImage: ''
   }
 
   componentWillMount() {
+    // Redirect User if user object not found
     if (localStorage.getItem('user') === null || localStorage.getItem('user') === 'null') {
       this.props.history.push('/login');
     }
 
+    // Fetch QR codes on loading
     userService.getQrcodes()
       .then(result => {
         let qrcodes = { ...this.state.qrcodes };
@@ -33,12 +37,10 @@ class Qrcode extends React.Component {
 
   openModal = (event, item) => {
     event.preventDefault();
-    // Create New QRCode if new request
+    // Generate QR Code on opening Modal
     const qrcodeImage = userService.qrcodeImage(item);
     qrcodeImage
       .then(result => {
-        console.log(result);
-
         this.setState({
           modalShow: true,
           item: item,
@@ -46,13 +48,35 @@ class Qrcode extends React.Component {
           sourceLink: item ? item.source_link : result.sourceLink,
           destinationLink: item ? item.destination_link : this.destinationLink,
         })
-      })
-
-
+      });
   }
 
   closeModal = e => {
-    this.setState({ modalShow: false });
+    this.setState({ modalShow: false, modalDeleteShow: false });
+  }
+
+  openDeleteModal = (e, item) => {
+    e.preventDefault();
+    this.setState({
+      modalDeleteShow: true,
+      item: item
+    });
+  }
+
+  deleteItem = (e) => {
+    e.preventDefault();
+    userService.qrcodeDelete(this.state.item)
+      .then(result => {
+        if (result.status === 'deleted') {
+          // Fetch again QR codes and set state
+          userService.getQrcodes()
+            .then(result => {
+              let qrcodes = { ...this.state.qrcodes };
+              qrcodes = result;
+              this.setState({ qrcodes, modalDeleteShow: false });
+            });
+        }
+      })
   }
 
   formHandle = event => {
@@ -89,8 +113,6 @@ class Qrcode extends React.Component {
           }
         })
     }
-
-
   }
 
   inputHandler = event => {
@@ -101,8 +123,6 @@ class Qrcode extends React.Component {
     if (event.target.id === 'destinationLink') {
       this.setState({ destinationLink: event.target.value })
     }
-
-
   }
 
   logout = event => {
@@ -129,6 +149,7 @@ class Qrcode extends React.Component {
                 <QrcodeListing
                   qrcodes={this.state.qrcodes}
                   openModal={this.openModal}
+                  openDeleteModal={this.openDeleteModal}
                 />
                 <QrcodeModal
                   show={this.state.modalShow}
@@ -139,6 +160,12 @@ class Qrcode extends React.Component {
                   qrcodeImage={this.state.qrcodeImage}
                   sourceLink={this.state.sourceLink}
                   destinationLink={this.state.destinationLink}
+                />
+                <QrcodeDeleteModal
+                  show={this.state.modalDeleteShow}
+                  onHide={this.closeModal}
+                  item={this.state.item}
+                  deleteItem={this.deleteItem}
                 />
               </div>
             </div>
