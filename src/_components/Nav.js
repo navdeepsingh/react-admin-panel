@@ -13,7 +13,7 @@ class Nav extends React.Component {
               <i className="fas fa-user-circle fa-fw"></i>
             </a>
             <div className="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
-              <a className="dropdown-item" href="/edit-profile">Edit Profile</a>
+              <a className="dropdown-item" href="/edit-profile" onClick={this.props.editProfile}>Edit Profile</a>
               <div className="dropdown-divider"></div>
               <a className="dropdown-item" href="/logout" onClick={this.props.logout}>Logout</a>
             </div>

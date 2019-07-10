@@ -24,6 +24,7 @@ class Qrcode extends React.Component {
     // Redirect User if user object not found
     if (localStorage.getItem('user') === null || localStorage.getItem('user') === 'null') {
       this.props.history.push('/login');
+      return false;
     }
 
     // Fetch QR codes on loading

@@ -11,8 +11,8 @@ class QrcodeListing extends React.Component {
           <td>{item.source_link}</td>
           <td>{item.destination_link}</td>
           <td>{item.created_at}</td>
-          <td><a href="/edit" className="btn btn-primary" onClick={(e) => this.props.openModal(e, item)}>VIEW | EDIT</a></td>
-          <td><a href="/delete" className="btn btn-secondary" onClick={(e) => this.props.openDeleteModal(e, item)}>DELETE</a></td>
+          <td align="center"><a href="/edit" className="btn btn-primary" onClick={(e) => this.props.openModal(e, item)}>EDIT</a></td>
+          <td align="center"><a href="/delete" className="btn btn-secondary" onClick={(e) => this.props.openDeleteModal(e, item)}>DELETE</a></td>
         </tr >
       );
     } else {
