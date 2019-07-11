@@ -6,13 +6,49 @@ export const userService = {
   qrcodeAdd,
   qrcodeUpdate,
   qrcodeImage,
-  qrcodeDelete
+  qrcodeDelete,
+  getUser,
+  updateProfile
 };
 
 
 function logout() {
   localStorage.removeItem('user');
   localStorage.removeItem('authenticate');
+}
+
+function getUser() {
+  const user = JSON.parse(localStorage.getItem('user'));
+  if (user) {
+    return fetch(config.API_BASE_URL + '/api/user', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': user.api_key
+      },
+    })
+      .then(response => response.json())
+      .then(res => res)
+      .catch(err => console.error('Error: ', err));
+  }
+}
+
+function updateProfile(id, data) {
+  const user = JSON.parse(localStorage.getItem('user'));
+  if (user) {
+    return fetch(config.API_BASE_URL + '/api/user/' + id, {
+      method: 'PUT',
+      mode: 'cors',
+      body: JSON.stringify(data),
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': user.api_key
+      },
+    })
+      .then(response => response.json())
+      .then(res => res)
+      .catch(err => console.error('Error: ', err));
+  }
 }
 
 function qrcodeImage(item) {

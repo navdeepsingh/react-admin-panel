@@ -8,8 +8,18 @@ import '../css/App.css';
 
 class EditProfile extends React.Component {
 
-  state = {
+  password = React.createRef();
 
+  state = {
+    user: {
+      id: '',
+      email: ''
+    },
+    changePassword: false,
+    success: false,
+    successMessage: '',
+    error: false,
+    errorMessage: ''
   }
 
   componentWillMount() {
@@ -20,12 +30,57 @@ class EditProfile extends React.Component {
     }
 
     // Fetch QR codes on loading
-    // userService.getQrcodes()
-    //   .then(result => {
-    //     let qrcodes = { ...this.state.qrcodes };
-    //     qrcodes = result;
-    //     this.setState({ qrcodes });
-    //   });
+    userService.getUser()
+      .then(result => {
+        console.log(result);
+        let user = { ...this.state.user };
+        user = result;
+        this.setState({ user });
+      });
+  }
+
+  onChangeEmail = e => {
+    this.setState({
+      user: {
+        id: this.state.user.id,
+        email: e.target.value
+      }
+    })
+  }
+
+  onChange = e => {
+    this.setState({
+      changePassword: e.target.checked
+    })
+  }
+
+  onSubmit = e => {
+    e.preventDefault();
+    const userId = this.state.user.id;
+    const data = {};
+    data.email = this.state.user.email;
+    if (this.state.changePassword && this.password.current.value) {
+      data.password = this.password.current.value;
+    }
+    console.log(data);
+
+    userService.updateProfile(userId, data)
+      .then(status => {
+        if (status) {
+          this.setState({
+            success: true,
+            successMessage: 'Updated Successfully',
+            error: false
+          });
+        } else {
+          this.setState({
+            error: true,
+            errorMessage: 'Some error occured',
+            success: false
+          });
+        }
+
+      })
   }
 
   logout = event => {
@@ -49,7 +104,18 @@ class EditProfile extends React.Component {
                 <li className="breadcrumb-item active">Form</li>
               </ol>
               <div>
-                <ProfileForm />
+                <ProfileForm
+                  onSubmit={this.onSubmit}
+                  email={this.state.user.email}
+                  password={this.password}
+                  changePassword={this.state.changePassword}
+                  onChangeEmail={this.onChangeEmail}
+                  onChange={this.onChange}
+                  success={this.state.success}
+                  successMessage={this.state.successMessage}
+                  error={this.state.error}
+                  errorMessage={this.state.errorMessage}
+                />
               </div>
             </div>
             <Footer />
