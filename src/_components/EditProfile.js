@@ -32,7 +32,6 @@ class EditProfile extends React.Component {
     // Fetch QR codes on loading
     userService.getUser()
       .then(result => {
-        console.log(result);
         let user = { ...this.state.user };
         user = result;
         this.setState({ user });
@@ -62,8 +61,6 @@ class EditProfile extends React.Component {
     if (this.state.changePassword && this.password.current.value) {
       data.password = this.password.current.value;
     }
-    console.log(data);
-
     userService.updateProfile(userId, data)
       .then(status => {
         if (status) {
