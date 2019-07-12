@@ -8,7 +8,8 @@ export const userService = {
   qrcodeImage,
   qrcodeDelete,
   getUser,
-  updateProfile
+  updateProfile,
+  sendPasswordResetEmail
 };
 
 
@@ -137,4 +138,19 @@ function qrcodeDelete(qrcode) {
       .then(response => response.json())
       .catch(err => console.error('Error: ', err));
   }
+}
+
+function sendPasswordResetEmail(email) {
+  console.log(email);
+  return fetch(config.API_BASE_URL + '/reset-password', {
+    crossDomain: true,
+    method: 'post',
+    body: JSON.stringify({ email }),
+    headers: {
+      'Content-Type': 'application/json'
+    },
+  })
+    .then(response => response.json())
+    .catch(err => console.error('Error: ', err));
+
 }

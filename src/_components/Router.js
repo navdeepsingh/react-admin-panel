@@ -1,18 +1,22 @@
 import React from 'react';
-import { BrowserRouter, Route, Switch } from "react-router-dom";
-import Login from './Login';
-import Dashboard from './Dashboard';
-import NotFound from './NotFound';
+import { BrowserRouter, Route } from 'react-router-dom';
+import { Login } from './Login';
+import { ForgotPassword } from './ForgotPassword';
+import { Dashboard } from './Dashboard';
+import { Qrcode } from './Qrcode';
+import { EditProfile } from './EditProfile';
 
 const Router = () => (
   <BrowserRouter>
-    <Switch>
-      <Route exact path="/" component={Login} />
-      <Route exact path="/login" component={Login} />
-      <Route exact path="/dashboard" component={Dashboard} />
-      <Route component={NotFound} />
-    </Switch>
+    <div>
+      <Route path="/" exact component={Login} />
+      <Route path="/login" exact component={Login} />
+      <Route path="/forgotpassword" exact component={ForgotPassword} />
+      <Route path="/dashboard" exact component={Dashboard} />
+      <Route path="/qrcode" exact component={Qrcode} />
+      <Route path="/profile" exact component={EditProfile} />
+    </div>
   </BrowserRouter>
 );
 
-export default Router;
+export { Router };

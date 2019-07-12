@@ -6,6 +6,9 @@ import '../css/Login.css';
 
 class Login extends React.Component {
 
+	email = React.createRef();
+	password = React.createRef();
+
 	state = {
 		login: {
 			error: false,
@@ -33,10 +36,6 @@ class Login extends React.Component {
 		localStorage.setItem('authenticate', this.state.login.authenticate);
 		localStorage.setItem('user', this.state.user);
 	}
-
-	email = React.createRef();
-	password = React.createRef();
-
 
 	loginSubmit = (e) => {
 		e.preventDefault();
@@ -80,6 +79,11 @@ class Login extends React.Component {
 			.catch(error => console.error('Error:', error));
 	}
 
+	onClickReset = e => {
+		e.preventDefault();
+		this.props.history.push('/forgotpassword');
+	}
+
 	render() {
 		return (
 			<div className="container">
@@ -102,10 +106,9 @@ class Login extends React.Component {
 										<label htmlFor="inputPassword">Password </label>
 									</div>
 
-									<div className="custom-control custom-checkbox mb-3">
-										<input type="checkbox" className="custom-control-input" id="customCheck1" />
-										<label className="custom-control-label" htmlFor="customCheck1">Remember password</label>
-									</div>
+									<p className="text-center">
+										Forgot Password? <a href="/forgotpassword" onClick={this.onClickReset}>Reset Password</a>
+									</p>
 									<button className="btn btn-lg btn-primary btn-block text-uppercase" type="submit" disabled={this.state.login.loading}>{this.state.login.loading ? 'Loading..' : 'Log In'}</button>
 								</form>
 							</div>
