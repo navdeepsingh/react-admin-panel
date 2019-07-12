@@ -76,7 +76,14 @@ class Login extends React.Component {
 					console.log('Success');
 				}
 			})
-			.catch(error => console.error('Error:', error));
+			.catch(error => {
+				const login = { ...this.state.login };
+				login['error'] = true;
+				login['loading'] = false;
+				login['errorMessage'] = 'Something Wrong: Please try later.';
+				login['authenticate'] = false;
+				this.setState({ login });
+			});
 	}
 
 	onClickReset = e => {
