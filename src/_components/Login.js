@@ -50,7 +50,6 @@ class Login extends React.Component {
 
 		fetch(config.API_BASE_URL + '/api/login', {
 			method: 'POST',
-			mode: 'cors',
 			headers: {
 				'Content-Type': 'application/json'
 			},
